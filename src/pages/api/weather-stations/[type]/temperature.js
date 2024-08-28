@@ -4,7 +4,7 @@ import connection from '@/db';
 export const annual = async () => {
   const [results] = await connection.query(
     `
-    SELECT YEAR(timestamp) as year, MONTH(timestamp) as month, AVG(rh) as avg, MAX(rh) as max, MIN(rh) as min 
+    SELECT YEAR(timestamp) as year, MONTH(timestamp) as month, AVG(ptemp_c) as avg, MAX(ptemp_c) as max, MIN(ptemp_c) as min 
     FROM weather_data
     GROUP BY YEAR(timestamp), MONTH(timestamp);
     `
@@ -15,7 +15,7 @@ export const annual = async () => {
 export const monthly = async () => {
   const [results] = await connection.query(
     `
-    SELECT MONTH(timestamp) as month, DAY(timestamp) as day, AVG(rh) as avg, MAX(rh) as max, MIN(rh) as min 
+    SELECT MONTH(timestamp) as month, DAY(timestamp) as day, AVG(ptemp_c) as avg, MAX(ptemp_c) as max, MIN(ptemp_c) as min 
     FROM weather_data
     GROUP BY MONTH(timestamp), DAY(timestamp);
     `
@@ -26,7 +26,7 @@ export const monthly = async () => {
 export const daily = async () => {
   const [results] = await connection.query(
     `
-    SELECT Day(timestamp) as day, AVG(rh) as avg, MAX(rh) as max, MIN(rh) as min
+    SELECT Day(timestamp) as day,Month(timestamp) as month, AVG(ptemp_c) as avg, MAX(ptemp_c) as max, MIN(ptemp_c) as min
     FROM weather_data
     GROUP BY Day(timestamp), MONTH(timestamp)
   `
